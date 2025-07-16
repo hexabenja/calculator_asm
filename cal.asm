@@ -7,18 +7,18 @@ org 100h
 jmp start
 
 msg: db "1-Sumar",0dh,0ah,"2-Multiplicar",0dh,0ah,"3-Restar",0dh,0ah,"4-Dividir",0dh,0ah,"$"
-msg2: db ,0dh,oah, "Ingrese primer numero : $"
-msg3: db ,0dh,oah, "Ingrese segundo numero : $"
-msg4: db ,0dh,oah, "Error de eleccion $"
-msg5: db ,0dh,oah, "Resultado : $"
-msg6: db ,0dh,oah, "Gracias por usar esta distribucion"
+msg2: db ,0dh,0ah, "Ingrese primer numero : $"
+msg3: db ,0dh,0ah, "Ingrese segundo numero : $"
+msg4: db ,0dh,0ah, "Error de eleccion $"
+msg5: db ,0dh,0ah, "Resultado : $"
+msg6: db ,0dh,0ah, "Gracias por usar esta distribucion"
 
 start:  mov ah,9 ; dar el primer mensaje
         mov dx, offset msg
         int 21h
         mov ah,0
         int 16h ; ya que el usuario apretara un numero del 1 al 6 usamos la interrumpcion para el pulsado de tecla
-        cmp al.31h ;comparar el valor de al, 31 significa la tecla S
+        cmp al,31h ;comparar el valor de al, 31 significa la tecla S
         je Sumar ;Jump Equal si el valor 31h se presiona        
         cmp al.32h ;comparar el valor de al, 32 significa la tecla 2
         je Multiplicar ;Jump Equal si el valor 32h se presiona
