@@ -142,8 +142,34 @@ Multiplicar:    mov ah,09h
                 call Ver
                 jmp exit
 
-Restar:
-
+Restar:     mov ah,09h
+            mov dx, offset msg2 ;mostrar msg2 en pantalla
+            int 21h
+            mov cx,0 ;cuenta los digitos y la cantida de digitos se guarda en CX
+            call InputNum ;mostrar la nueva variable de InputNum
+            push dx ;devolver valor al stack el segundo numero
+            mov ah,9 ;cargar segundo mensage msg3
+            mov dx,offset msg3; mostrarlo msg en cmd
+            int 21h
+            mov cx,0 ;despues de ver el mensaje3 hacer cx a 0
+            call InputNum
+            pop bx ;traer el primer valor en bx
+            sub bx,dx ;hacer la resta entre el valor de BX y DX
+            mov dx,bx ;
+            push dx ;llevar a stack DX
+            mov ah,9 
+            mov dx,offset msg5
+            int 21h
+            pop dx ;regresar a dx
+            mov cx,10000 ;maximo numero que se puede calcular
+            call Ver
+            jmp exit
+      
+      
+      
+      
+      
+      
 Dividir:
         
          
