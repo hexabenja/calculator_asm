@@ -8,7 +8,7 @@ msg2: db ,0dh,0ah, "Ingrese primer numero : $"
 msg3: db ,0dh,0ah, "Ingrese segundo numero : $"
 msg4: db ,0dh,0ah, "Error de eleccion $"
 msg5: db ,0dh,0ah, "Resultado : $"
-msg6: db ,0dh,0ah, "Gracias por usar este repositorio, apreta cualquier tecla..."
+msg6: db ,0dh,0ah, "Gracias por usar este repositorio, apreta cualquier tecla... $"
 
 start:  mov ah,9 ; dar el primer mensaje
         mov dx, offset msg
@@ -118,7 +118,29 @@ VerNum:         push ax ;mover ax y dx con sus valores al stack
                 ret
                  
                 
-Multiplicar:
+Multiplicar:    mov ah,09h
+                mov dx, offset msg2 ;mostrar msg2 en pantalla
+                int 21h
+                mov cx,0 ;cuenta los digitos y la cantida de digitos se guarda en CX
+                call InputNum ;mostrar la nueva variable de InputNum
+                push dx ;devolver valor al stack el segundo numero
+                mov ah,9 ;cargar segundo mensage msg3
+                mov dx,offset msg3; mostrarlo msg en cmd
+                int 21h
+                mov cx,0 ;despues de ver el mensaje3 hacer cx a 0
+                call InputNum
+                pop bx ;traer el primer valor en bx
+                mov ax,dx ;copia el valor de dx a ax
+                mul bx ; multiplica ax anteriormente seleccionado por bx
+                mov dx,ax ;el resultado en ax de la operacion lo pasa a DX
+                push dx ;llevarlo a stack
+                mov ah,9 
+                mov dx,offset msg5
+                int 21h
+                pop dx ;regresar a dx
+                mov cx,10000 ;maximo numero que se puede calcular
+                call Ver
+                jmp exit
 
 Restar:
 
