@@ -37,7 +37,7 @@ Sumar:      mov ah,09h
             call InputNum ;mostrar la nueva variable de InputNum
             push dx ;devolver valor al stack el segundo numero
             mov ah,9 ;cargar segundo mensage msg3
-            mov dx,offset msg; mostrarlo msg en cmd
+            mov dx,offset msg3; mostrarlo msg en cmd
             int 21h
             mov cx,0 ;despues de ver el mensaje3 hacer cx a 0
             call InputNum
@@ -88,7 +88,7 @@ InputNum:       mov ah,0 ;tomar un input del usuario y setear AHigh a 0
                 mov ah,0 ;seleccionar valor
                 push ax ;subir el valor al stack 
                 inc cx ;incorpora el valor en CX
-                jmp VerNum 
+                jmp FormNu 
                 
 FormNu: pop ax ; guardar el primer numero en el stack en solo un byte
         push dx ; mover valor al stack
@@ -103,7 +103,7 @@ FormNu: pop ax ; guardar el primer numero en el stack en solo un byte
         mov bx,ax ;mover el nuevo valor a BX
         dec cx ;
         cmp cx,0 ;verificar el valor de cx si es igual a zero
-        jmp FormNu ;si es zero regresar al principio
+        jne FormNu ;si es zero regresar al principio
         ret
                 
                  
@@ -115,7 +115,7 @@ VerNum:         push ax ;mover ax y dx con sus valores al stack
                 int 21h
                 pop dx
                 pop ax
-                ret 
+                 
                 
 Multiplicar:
 
