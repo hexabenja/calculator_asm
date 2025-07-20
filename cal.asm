@@ -56,7 +56,7 @@ exit:       mov dx, offset msg6
             mov ah,9
             int 21h
             mov ah,0
-            int 16h
+            int 16h            
             ret
             
 
@@ -88,7 +88,7 @@ InputNum:       mov ah,0 ;tomar un input del usuario y setear AHigh a 0
                 mov ah,0 ;seleccionar valor
                 push ax ;subir el valor al stack 
                 inc cx ;incorpora el valor en CX
-                jmp FormNu 
+                jmp InputNum
                 
 FormNu: pop ax ; guardar el primer numero en el stack en solo un byte
         push dx ; mover valor al stack
@@ -96,8 +96,8 @@ FormNu: pop ax ; guardar el primer numero en el stack en solo un byte
         pop dx ; traerlo devuelta terminado el proceso de multiplicacion
         add dx,ax
         mov ax,bx; tomar el valor de bx
-        push dx; mover el valor al stack
         mov bx,10
+        push dx; mover el valor al stack
         mul bx; multiplicar el valor de bx por 10
         pop dx ;traer dx devueta
         mov bx,ax ;mover el nuevo valor a BX
@@ -115,6 +115,7 @@ VerNum:         push ax ;mover ax y dx con sus valores al stack
                 int 21h
                 pop dx
                 pop ax
+                ret
                  
                 
 Multiplicar:
