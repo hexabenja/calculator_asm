@@ -1,3 +1,36 @@
+;           Explicacion para principiantes de codigo
+;
+;   Esta calculadora funciona utilizando INT el cual es un interruptor BIOS
+;   que te permite utilizar diferentes recursos del sistema, entre ellos estan:
+;       21h: Video (cadena de caracteres ASCII $) | 16h: Teclado | y varios mas
+;   Al realizar un INT tienes que asignar que funcion especifica va a realizar dejando
+;   un registro en alguna de las casillas A,B,C o D las cuales estan ordenadas de esta manera
+;
+;    High   Low
+;    _____________ NX hace el cambio en la fila 
+; AX | 00  | 00  | Ejemplo: mov dx,10h = 0010 en AX  
+; BX | 00  | 00  | XH o XL son las columnas
+; CX | 00  | 00  | Ejemplo: mov ah,09 = 0900 en AX 
+; DX | 00  | 00  |
+;    |_____|_____|
+;                
+;   Las diferentes instrucciones directas en la CPU
+;   se encargan de copiar igualar, sumar, restar, comparar, saltar,
+;   saltar sino y etcera. 
+;   
+;   Entre estas instrucciones de CPU las mas relevantes son:
+;       MOV : Iguala valores
+;            Ejemplos:  mov al,10 = AL es igual a 10   
+;                       mov dx,ax = El valor de AX se copio en DX 
+;                                   asi que ahora ambos valores son iguales.
+;       JE: Saltar si es igual a 
+;           Ejemplo:    cmp al,0dh ; comparar si AL es igual a 0dh
+;                       je FormarNumero ; si son iguales, saltar a FormarNumero
+;       DB: Cadena string que almacenas en Bytes individuales (ver emulacion para ejemplo) 
+;           Ejemplo; Etiqueta: db "Hola mundo $" 
+;                       Tiene que terminar en $ porque es ASCII 24h
+:
+;   Y de aquella manera es como esta estructurado este codigo junto con demas instrucciones de CPU
 
 org 100h
 
@@ -112,7 +145,7 @@ VerNum:         push ax ;mover ax y dx con sus valores al stack
                 mov dx,ax ;asegurarnos de que el valor se guarde en dx
                 add dl,30h ;para convertir a
                 mov ah,2
-                int 21h
+                int 21h 
                 pop dx
                 pop ax
                 ret
@@ -166,11 +199,33 @@ Restar:     mov ah,09h
             jmp exit
       
       
+Dividir:    mov ah,09h
+                mov dx, offset msg2 ;mostrar msg2 en pantalla
+                int 21h
+                mov cx,0 ;cuenta los digitos y la cantida de digitos se guarda en CX
+                call InputNum ;mostrar la nueva variable de InputNum
+                push dx ;devolver valor al stack el segundo numero
+                mov ah,9 ;cargar segundo mensage msg3
+                mov dx,offset msg3; mostrarlo msg en cmd
+                int 21h
+                mov cx,0 ;despues de ver el mensaje3 hacer cx a 0
+                call InputNum
+                pop bx ;traer de stack el primer valor en bx
+                mov ax,bx ;copia el valor de BX en AX (primer numero)
+                mov cx,dx ;copia el valor de DX en CX 
+                mov dx,0 ;
+                div cx ; divide CX anteriormente seleccionado por bx
+                ;el cociente estara guardado en AX y el resto de la division en DX
+                mov dx,ax ;el resultado en ax de la operacion lo pasa a DX
+                push dx ;llevar DX a stack
+                mov ah,9 
+                mov dx,offset msg5
+                int 21h
+                pop dx ;regresar a dx
+                mov cx,10000 ;maximo numero que se puede calcular
+                call Ver
+                jmp exit
       
-      
-      
-      
-Dividir:
         
          
         
